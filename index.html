@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirim Pertanyaan - NGL Lite</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 90%;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #0066ff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .form-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #0066ff;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 150px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: #0066ff;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #003399;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            display: none;
+            color: #00ff00;
+            text-align: center;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>NGL Lite</h1>
+            <p>Kirim pertanyaan anonim Anda</p>
+        </div>
+
+        <div class="form-box">
+            <textarea id="questionInput" placeholder="Tulis pertanyaanmu di sini..."></textarea>
+            <button onclick="submitQuestion()">Kirim Pertanyaan</button>
+            <div class="success-message" id="successMessage">
+                Pertanyaan terkirim!
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function submitQuestion() {
+            const questionInput = document.getElementById('questionInput');
+            const successMessage = document.getElementById('successMessage');
+            
+            if (questionInput.value.trim()) {
+                // Simpan ke localStorage
+                const questions = JSON.parse(localStorage.getItem('questions') || '[]');
+                questions.push({
+                    id: Date.now(),
+                    text: questionInput.value,
+                    timestamp: new Date().toISOString()
+                });
+                localStorage.setItem('questions', JSON.stringify(questions));
+                
+                // Tampilkan pesan sukses
+                successMessage.style.display = 'block';
+                questionInput.value = '';
+                
+                // Reset pesan setelah 2 detik
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+  </html
